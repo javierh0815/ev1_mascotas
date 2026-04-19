@@ -16,7 +16,7 @@ public class GlobalExceptionHandler {
         public ResponseEntity<Object> handleRuntimeException(RuntimeException ex) {
             Map<String, Object> response = new HashMap<>();
             response.put("timestamp", LocalDateTime.now());
-            response.put("message", "Error en la solicitud de reserva");
+            response.put("message", "Error en el procesamiento de la orden de compra");
             response.put("details", ex.getMessage());
             response.put("status", HttpStatus.BAD_REQUEST.value());
 
@@ -34,7 +34,7 @@ public class GlobalExceptionHandler {
             
                 Map<String, Object> response = new HashMap<>();
                 response.put("timestamp", LocalDateTime.now());
-                response.put("message", "Validación fallida: Verifique los datos de la habitación");
+                response.put("message", "Validación fallida: Verifique los datos de la orden");
                 response.put("errors", errors);
                 response.put("status", HttpStatus.BAD_REQUEST.value());
             
@@ -45,7 +45,7 @@ public class GlobalExceptionHandler {
         public ResponseEntity<Object> handleGeneralException(Exception ex) {
             Map<String, Object> response = new HashMap<>();
             response.put("timestamp", LocalDateTime.now());
-            response.put("message", "Error interno en el Sistema de Gestión Hotelera");
+            response.put("message", "Error interno en el Sistema de Procesamiento de Órdenes de Compra");
             response.put("details", "Contacte al soporte técnico si el problema persiste.");
             response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
         
