@@ -29,7 +29,7 @@ public class ordenCompraController {
 
     @PostMapping
     public ResponseEntity<ordenCompra> crear(@Valid @RequestBody ordenCompra orden) {
-        return ResponseEntity.ok(service.createOrden(orden));
+        return new ResponseEntity<>(service.createOrden(orden), org.springframework.http.HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
@@ -40,6 +40,6 @@ public class ordenCompraController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminar(@PathVariable Long id) {
         service.deleteOrden(id);
-        return ResponseEntity.ok("Orden eliminada con éxito.");
+        return ResponseEntity.ok("La orden con ID " + id + " ha sido eliminada correctamente de la base de datos.");
     }
 }

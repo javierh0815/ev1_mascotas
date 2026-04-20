@@ -47,7 +47,7 @@ public class ordenCompraServiceImpl implements ordenCompraService {
             existingOrden.setProducto(orden.getProducto());
             existingOrden.setPrecio(orden.getPrecio());
             existingOrden.setUnidad(orden.getUnidad());
-            existingOrden.setEnviada(orden.isEnviada());
+            existingOrden.setEnviado(orden.getEnviado());
 
             return ordenCompraRepository.save(existingOrden);
 

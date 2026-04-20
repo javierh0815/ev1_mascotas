@@ -1,6 +1,5 @@
 package com.mascotas.mascotas.model;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,37 +14,50 @@ public class ordenCompra {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column (name = "id")
+    @Column(name = "id")
     private Long id;
 
     @NotBlank(message = "El código de orden es obligatorio")
     @Pattern(regexp = "^[A-Z]{2}[0-9]{3}$", message = "Formato inválido (Ej: AA001)")
-    @Column(name = "codOrden", unique = true)
+    @Column(name = "codOrden", unique = true, nullable = false)
     private String codOrden;
 
+    @NotNull(message = "Error: El precio es obligatorio y no puede estar vacío")
     @Min(value = 1, message = "Error de formato: El precio debe ser mayor a 0")
-    @Column(name = "precio")
-    private int precio;
+    @Column(name = "precio", nullable = false)
+    private Integer precio;
 
-    @NotBlank(message = "Error de formato: debe ingresar un precio de producto")
+    @NotNull(message = "Error de formato: debe ingresar la cantidad de unidades")
     @Min(value = 1, message = "Error de formato: La unidad debe ser mayor a 0")
-    @Column(name = "unidad")
-    private int unidad;
+    @Column(name = "unidad", nullable = false)
+    private Integer unidad;
     
+    @NotBlank(message = "Error de formato: debe ingresar un nombre de producto")
     @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$", message = "Error de formato: Caracteres inválidos detectados")
     @Size(min = 2, max = 50, message = "Error de formato: Nombre del producto debe tener entre 2 y 50 caracteres")
-    @NotBlank(message = "Error de formato: debe ingresar un nombre de producto")
-    @Column(name = "producto")
+    @Column(name = "producto", nullable = false)
     private String producto;
 
-    @Column(name = "enviada")
-    private boolean enviada; 
+    @NotNull(message = "Error de formato: El estado de envío es obligatorio")
+    @Column(name = "enviado", nullable = false)
+    private Boolean enviado = false; 
 
+    public ordenCompra() {
+    }
 
+    public ordenCompra(Long id, String codOrden, Integer precio, Integer unidad, String producto, Boolean enviado) {
+        this.id = id;
+        this.codOrden = codOrden;
+        this.precio = precio;
+        this.unidad = unidad;
+        this.producto = producto;
+        this.enviado = enviado;
+    }
 
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -58,49 +70,35 @@ public class ordenCompra {
         this.codOrden = codOrden;
     }
 
-
-
-
-    public int getPrecio() {
+    public Integer getPrecio() {
         return precio;
     }
-    public void setPrecio(int precio) {
+
+    public void setPrecio(Integer precio) {
         this.precio = precio;
     }
-    public int getUnidad() {
+
+    public Integer getUnidad() {
         return unidad;
     }
-    public void setUnidad(int unidad) {
+
+    public void setUnidad(Integer unidad) {
         this.unidad = unidad;
     }
+
     public String getProducto() {
         return producto;
     }
+
     public void setProducto(String producto) {
         this.producto = producto;
     }
-    public boolean isEnviada() {
-        return enviada;
-    }
-    public void setEnviada(boolean enviada) {
-        this.enviada = enviada;
+
+    public Boolean getEnviado() {
+        return enviado;
     }
 
-    public ordenCompra() {
-    
+    public void setEnviado(Boolean enviado) {
+        this.enviado = enviado;
     }
-
-    public ordenCompra(Long id, String codOrden, int precio, int unidad, String producto, boolean enviada) {
-        this.id = id;
-        this.codOrden = codOrden;
-        this.precio = precio;
-        this.unidad = unidad;
-        this.producto = producto;
-        this.enviada = enviada;
-    }
-
-
-
-
-    
 }
