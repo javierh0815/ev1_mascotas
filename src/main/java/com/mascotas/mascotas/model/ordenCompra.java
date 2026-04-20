@@ -36,7 +36,7 @@ public class ordenCompra {
     private Integer unidad;
     
     @NotBlank(message = "Error de formato: debe ingresar un nombre de producto")
-    @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$", message = "Error de formato: Caracteres inválidos detectados")
+    @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9 ]+$", message = "Error de formato: Caracteres inválidos detectados")
     @Size(min = 2, max = 50, message = "Error de formato: Nombre del producto debe tener entre 2 y 50 caracteres")
     @Column(name = "producto", nullable = false)
     private String producto;
