@@ -9,7 +9,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.*;
 
 @Entity
-@Table(name = "ordenCompra")
+@Table(name = "orden_compra")
 public class ordenCompra {
     
     @Id
@@ -19,8 +19,8 @@ public class ordenCompra {
 
     @NotBlank(message = "El código de orden es obligatorio")
     @Pattern(regexp = "^[A-Z]{2}[0-9]{3}$", message = "Formato inválido (Ej: AA001)")
-    @Column(name = "codOrden", unique = true, nullable = false)
-    private String codOrden;
+    @Column(name = "codigo", unique = true, nullable = false)
+    private String codigo;
 
     @NotNull(message = "Error: El precio es obligatorio y no puede estar vacío")
     @Min(value = 1, message = "Error de formato: El precio debe ser mayor a 0")
@@ -45,9 +45,9 @@ public class ordenCompra {
     public ordenCompra() {
     }
 
-    public ordenCompra(Long id, String codOrden, Integer precio, Integer unidad, String producto, Boolean enviado) {
+    public ordenCompra(Long id, String codigo, Integer precio, Integer unidad, String producto, Boolean enviado) {
         this.id = id;
-        this.codOrden = codOrden;
+        this.codigo = codigo;
         this.precio = precio;
         this.unidad = unidad;
         this.producto = producto;
@@ -62,12 +62,12 @@ public class ordenCompra {
         this.id = id;
     }
 
-    public String getCodOrden() {
-        return codOrden;
+    public String getCodigo() {
+        return codigo;
     }
 
-    public void setCodOrden(String codOrden) {
-        this.codOrden = codOrden;
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public Integer getPrecio() {

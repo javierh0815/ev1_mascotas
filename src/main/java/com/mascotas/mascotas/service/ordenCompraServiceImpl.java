@@ -27,8 +27,8 @@ public class ordenCompraServiceImpl implements ordenCompraService {
 
     @Override
     public ordenCompra createOrden(ordenCompra orden) {
-        if (ordenCompraRepository.existsByCodOrden(orden.getCodOrden())) {
-            throw new RuntimeException("Ya existe una orden con el código: " + orden.getCodOrden());
+        if (ordenCompraRepository.existsByCodigo(orden.getCodigo())) {
+            throw new RuntimeException("Ya existe una orden con el código: " + orden.getCodigo());
         }
             return ordenCompraRepository.save(orden);
     }
@@ -37,13 +37,13 @@ public class ordenCompraServiceImpl implements ordenCompraService {
     public ordenCompra updateOrden(Long id, ordenCompra orden) {
         return ordenCompraRepository.findById(id).map(existingOrden -> {
 
-            if (!existingOrden.getCodOrden().equals(orden.getCodOrden()) && 
-                ordenCompraRepository.existsByCodOrden(orden.getCodOrden())) {
+            if (!existingOrden.getCodigo().equals(orden.getCodigo()) && 
+                ordenCompraRepository.existsByCodigo(orden.getCodigo())) {
                 
-                throw new RuntimeException("El código '" + orden.getCodOrden() + "' ya está registrado en otra orden.");
+                throw new RuntimeException("El código '" + orden.getCodigo() + "' ya está registrado en otra orden.");
             }
 
-            existingOrden.setCodOrden(orden.getCodOrden());
+            existingOrden.setCodigo(orden.getCodigo());
             existingOrden.setProducto(orden.getProducto());
             existingOrden.setPrecio(orden.getPrecio());
             existingOrden.setUnidad(orden.getUnidad());
