@@ -1,5 +1,7 @@
 package com.mascotas.mascotas.model;
 
+import org.hibernate.annotations.DynamicInsert;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,6 +12,7 @@ import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "orden_compra")
+@DynamicInsert
 public class ordenCompra {
     
     @Id
@@ -38,7 +41,6 @@ public class ordenCompra {
     @Column(name = "producto", nullable = false)
     private String producto;
 
-    @NotNull(message = "Error de formato: El estado de envío es obligatorio")
     @Column(name = "enviado", nullable = false)
     private Boolean enviado = false; 
 
