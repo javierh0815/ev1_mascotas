@@ -77,7 +77,7 @@ class ordenCompraServiceImplTest {
         RuntimeException exception = org.junit.jupiter.api.Assertions.assertThrows(RuntimeException.class, () -> {
             ordenCompraService.updateOrden(1L, orden);
         });
-        assertEquals("Orden no encontrada con ID: 1", exception.getMessage());
+        assertEquals("Orden de compra no encontrada con ID: 1", exception.getMessage());
     }
 
     @Test

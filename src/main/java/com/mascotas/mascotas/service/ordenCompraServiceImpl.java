@@ -4,8 +4,11 @@ package com.mascotas.mascotas.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+
+import com.mascotas.mascotas.exception.ordenCompraNotFoundException;
 import com.mascotas.mascotas.model.ordenCompra;
 import com.mascotas.mascotas.repository.ordenCompraRepository;
+
 
 @Service
 public class ordenCompraServiceImpl implements ordenCompraService {
@@ -21,7 +24,7 @@ public class ordenCompraServiceImpl implements ordenCompraService {
     @Override
     public ordenCompra getOrdenById(Long id) {
         return ordenCompraRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Orden no encontrada con ID: " + id));
+                .orElseThrow(() -> new ordenCompraNotFoundException(id));
         
     }
 
@@ -51,13 +54,13 @@ public class ordenCompraServiceImpl implements ordenCompraService {
 
             return ordenCompraRepository.save(existingOrden);
 
-        }).orElseThrow(() -> new RuntimeException("Orden no encontrada con ID: " + id));
+        }).orElseThrow(() -> new ordenCompraNotFoundException(id));
     }
 
     @Override
     public void deleteOrden(Long id) {
         if (!ordenCompraRepository.existsById(id)) {
-            throw new RuntimeException("Orden no encontrada con ID: " + id);
+            throw new ordenCompraNotFoundException(id);
         }
         ordenCompraRepository.deleteById(id);
     }

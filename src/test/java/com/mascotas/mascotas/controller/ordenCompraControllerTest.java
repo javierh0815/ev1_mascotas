@@ -5,6 +5,9 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.util.List;
+
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -48,12 +51,15 @@ class ordenCompraControllerTest {
                 when(ordenCompraService.getOrdenById(1L)).thenReturn(orden);
                 mockMvc.perform(get("/ordenes/1"))
                         .andExpect(status().isOk())
+                        .andExpect(content().contentType("application/hal+json"))
                         .andExpect(jsonPath("$.id").value(1L))
                         .andExpect(jsonPath("$.codigo").value("AA001"))
                         .andExpect(jsonPath("$.precio").value(100))
                         .andExpect(jsonPath("$.unidad").value(2))
                         .andExpect(jsonPath("$.producto").value("Producto A"))
-                        .andExpect(jsonPath("$.enviado").value(false));
+                        .andExpect(jsonPath("$.enviado").value(false))
+                        .andExpect(jsonPath("$._links.self.href").exists())
+                        .andExpect(jsonPath("$._links.ordenes.href").exists());
         }
 
         @Test
@@ -63,19 +69,22 @@ class ordenCompraControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(orden)))
                         .andExpect(status().isCreated())
+                        .andExpect(content().contentType(("application/hal+json")))
                         .andExpect(jsonPath("$.id").value(1L))
                         .andExpect(jsonPath("$.codigo").value("AA001"))
                         .andExpect(jsonPath("$.precio").value(100))
                         .andExpect(jsonPath("$.unidad").value(2))
                         .andExpect(jsonPath("$.producto").value("Producto A"))
-                        .andExpect(jsonPath("$.enviado").value(false));
+                        .andExpect(jsonPath("$.enviado").value(false))
+                        .andExpect(jsonPath("$._links.self.href").exists())
+                        .andExpect(jsonPath("$._links.ordenes.href").exists());
         }
 
         @Test
         void testdeleteOrden() throws Exception {
                 doNothing().when(ordenCompraService).deleteOrden(1L);
                 mockMvc.perform(delete("/ordenes/1"))
-                        .andExpect(status().isOk());
+                        .andExpect(status().isNoContent());
                 verify(ordenCompraService, times(1)).deleteOrden(1L);
         }
 
@@ -86,13 +95,27 @@ class ordenCompraControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(orden)))
                         .andExpect(status().isOk())
+                        .andExpect(content().contentType(("application/hal+json")))
                         .andExpect(jsonPath("$.id").value(1L))
                         .andExpect(jsonPath("$.codigo").value("AA001"))
                         .andExpect(jsonPath("$.precio").value(100))
                         .andExpect(jsonPath("$.unidad").value(2))
                         .andExpect(jsonPath("$.producto").value("Producto A"))
-                        .andExpect(jsonPath("$.enviado").value(false));
+                        .andExpect(jsonPath("$.enviado").value(false))
+                        .andExpect(jsonPath("$._links.self.href").exists())
+                        .andExpect(jsonPath("$._links.ordenes.href").exists());
                 verify(ordenCompraService, times(1)).updateOrden(eq(1L), any(ordenCompra.class));
+        }
+
+        @Test
+        void testgetAllOrdenes() throws Exception {
+                List<ordenCompra> ordenes = List.of(orden);
+                when(ordenCompraService.getAllOrdenes()).thenReturn(ordenes);
+
+                mockMvc.perform(get("/ordenes"))
+                        .andExpect(status().isOk())
+                        .andExpect(jsonPath("$._embedded.ordenCompraList[0].id").value(1L))
+                        .andExpect(jsonPath("$._links.self.href").exists());
         }
 
 
